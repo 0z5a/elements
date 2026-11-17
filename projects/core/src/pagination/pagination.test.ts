@@ -159,6 +159,21 @@ describe(Pagination.metadata.tag, () => {
     expect(Object.fromEntries(new FormData(form)).page).toBe('2');
   });
 
+  it('should not report a step mismatch for the page size step', async () => {
+    await elementIsStable(element);
+    const form = fixture.querySelector('form');
+    expect(element.value).toBe(1);
+    expect(element.step).toBe(10);
+    expect(element.validity.stepMismatch).toBe(false);
+    expect(element.checkValidity()).toBe(true);
+    expect(form.checkValidity()).toBe(true);
+
+    element.value = 2;
+    await elementIsStable(element);
+    expect(element.validity.stepMismatch).toBe(false);
+    expect(form.checkValidity()).toBe(true);
+  });
+
   it('should show only label when step selection is disabled', async () => {
     element.disableStep = true;
     await elementIsStable(element);

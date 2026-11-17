@@ -106,6 +106,11 @@ export class Pagination extends FormControlMixin<typeof LitElement, number>(LitE
     [Select.metadata.tag]: Select
   };
 
+  /** @internal step is the page size, not a constraint on the page number value */
+  get _stepConstraint() {
+    return null;
+  }
+
   /** @private */
   get keynavListConfig(): KeynavListConfig {
     return {
