@@ -8,3 +8,11 @@ nve-toggletip:not(:has([slot='footer'])):has([slot='header'])::part(_content) {
 nve-toggletip:not(:has([slot='header'])):has([slot='footer'])::part(_content) {
   margin-block-start: calc(var(--padding) * 0.5);
 }
+
+nve-toggletip:has(nve-alert-group)::part(icon-button) {
+  --color: var(--nve-sys-text-white-color);
+}
+
+nve-toggletip:has(nve-alert-group[status='warning'])::part(icon-button) {
+  --color: var(--nve-sys-text-black-color);
+}
