@@ -177,6 +177,7 @@ export interface FormControlMixinInstance<T extends FormControlValue> {
   _metadata: FormControlMetadata;
   _initialValue: T | undefined;
   _validators: NonNullable<FormControlMetadata['validators']>;
+  _stepConstraint: number | null;
   _internals: ElementInternals;
   updateValue(value: T): void;
   _stopInternalPropagation(event: Event): void;
@@ -479,6 +480,11 @@ export function FormControlMixin<TBase extends Constructor, T extends FormContro
       return this._metadata.validators ?? [];
     }
 
+    /** @internal step used for numeric step mismatch validation, controls that use step for another purpose return null */
+    get _stepConstraint(): number | null {
+      return this.step;
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     constructor(...args: any[]) {
       super(...args);
@@ -664,7 +670,7 @@ export function FormControlMixin<TBase extends Constructor, T extends FormContro
         return getNumberValidity({
           max: this.max,
           min: this.min,
-          step: this.step,
+          step: this._stepConstraint,
           value: this.value
         });
       }
